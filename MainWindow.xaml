@@ -1,0 +1,77 @@
+﻿<Window x:Class="GameOfLife2.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GameOfLife2"
+        mc:Ignorable="d"
+        Title="Game of Life" Height="600" Width="800"
+        Loaded="InitGame">
+    <Window.Resources>
+
+        <!--<ControlTemplate x:Key="ButtonTemplate" TargetType="Button">
+            <Grid>
+                <Button Content="{TemplateBinding Content}" Margin="0" />
+                <Border BorderBrush="Green" BorderThickness="2" ></Border>
+            </Grid>
+        </ControlTemplate>-->
+
+        <Style TargetType="Button">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="Aqua"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(Button.Width)" To="45" Duration="0:0:0.05" AutoReverse="True"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                </Trigger>
+            </Style.Triggers>
+            <Setter Property="Margin" Value="5,0,5,0"/>
+            <Setter Property="Width" Value="50"/>
+            <Setter Property="Background" Value="Blue"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontWeight" Value="500"/>
+            
+        </Style>
+
+        
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Menu Height="20" Grid.Row="0">
+            <MenuItem Header="File">
+                <MenuItem Header="Save state to file" Click="SaveToFile_Click"/>
+                <MenuItem Header="Load state from file" Click="LoadFromFile_Click"/>
+            </MenuItem>
+        </Menu>
+        <StackPanel Orientation="Horizontal" Height="25" Margin="5" Grid.Row="1">
+            <!--<Button Template="{StaticResource ButtonTemplate}"  Content="Prev" Click="PrevButton_Click"/>-->
+            <Button Content="Next" Click="NextButton_Click"/>
+            <Button Content="Start" Click="StartButton_Click"/>
+            <Button Content="Stop" Click="StopButton_Click"/>
+            <Button Content="Reset" Click="ResetButton_Click"/>
+            <Label Content="Generation:"/>
+            <Label Content="{Binding Path=GameStats.Generation}"/>
+            <Label Content="Born:"/>
+            <Label Content="{Binding Path=GameStats.BornNum}"/>
+            <Label Content="Died:"/>
+            <Label Content="{Binding Path=GameStats.DeadNum}"/>
+            <Label Content="Height:"/>
+            <TextBox x:Name="HeightInput" Width="40" Height="auto" Text="{Binding Height, Mode=TwoWay}"/>
+            <Label Content="Width:"/>
+            <TextBox x:Name="WidthInput" Width="40" Height="auto" Text="{Binding Width, Mode=TwoWay}"/>
+            <Button Content="Set size" Click="SetSizeButton_Click"/>
+        </StackPanel>
+        <Grid x:Name="BoardGrid" Margin="0,5,0,5" Grid.Row="2" HorizontalAlignment="Stretch"/>
+
+    </Grid>
+</Window>
