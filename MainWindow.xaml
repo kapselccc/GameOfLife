@@ -50,6 +50,9 @@
                 <MenuItem Header="Save state to file" Click="SaveToFile_Click"/>
                 <MenuItem Header="Load state from file" Click="LoadFromFile_Click"/>
             </MenuItem>
+            <MenuItem Header="Settings">
+                <MenuItem Header="Open settings" Click="OpenSettings_Click"/>
+            </MenuItem>
         </Menu>
         <StackPanel Orientation="Horizontal" Height="25" Margin="2" Grid.Row="1" VerticalAlignment="Center" >
             <Button  Content="Prev" Click="PrevButton_Click"/>
@@ -58,18 +61,12 @@
             <Button Content="Stop" Click="StopButton_Click"/>
             <Button Content="Reset" Click="ResetButton_Click"/>
             <Label Content="Generation:"/>
-            <Label Content="{Binding Path=GameStats.Generation}"/>
+            <Label Content="{Binding Path=GameStats.Generation}" Margin="0,0,10,0"/>
             <Label Content="Born:"/>
-            <Label Content="{Binding Path=GameStats.BornNum}"/>
+            <Label Content="{Binding Path=GameStats.BornNum}" Margin="0,0,10,0"/>
             <Label Content="Died:"/>
-            <Label Content="{Binding Path=GameStats.DeadNum}"/>
-            <Label Content="Height:"/>
-            <TextBox x:Name="HeightInput" Width="40" Height="auto" Text="{Binding Height, Mode=TwoWay}"/>
-            <Label Content="Width:"/>
-            <TextBox x:Name="WidthInput" Width="40" Height="auto" Text="{Binding Width, Mode=TwoWay}"/>
-            <Button Content="Set size" Click="SetSizeButton_Click"/>
-            <CheckBox Content="Highlighting" VerticalAlignment="Center" IsChecked="{Binding IsHighlightingEnabled, Mode=TwoWay}" Click="EnableHighlightingCheckbox_Click"/>
-        </StackPanel>
+            <Label Content="{Binding Path=GameStats.DeadNum}" Margin="0,0,10,0"/>
+          </StackPanel>
         <Grid x:Name="BoardGrid" Margin="0,5,0,5" Grid.Row="2" HorizontalAlignment="Stretch"/>
 
     </Grid>

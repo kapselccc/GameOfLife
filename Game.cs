@@ -21,9 +21,6 @@ namespace GameOfLife2
     }
     public class Game : INotifyPropertyChanged
     {
-        private int aliveNeighboursNumToBeBorn = 3;
-        private int maxAliveNeighboursNumNotToDie = 3;
-        private int minAliveNeighboursNumNotToDie = 2;
         private GridLength gridLength = new GridLength(1, GridUnitType.Star);
         private int height;
         private int width;
@@ -34,6 +31,30 @@ namespace GameOfLife2
         private Stats gameStats;
         private Stats? prevStats;
         private bool isHighlightingEnabled;
+
+        private int aliveNeighboursNumToBeBorn;
+        private int maxAliveNeighboursNumNotToDie;
+        private int minAliveNeighboursNumNotToDie;
+
+        public int MinAliveNeighboursNumNotToDie
+        {
+            get { return minAliveNeighboursNumNotToDie; }
+            set { minAliveNeighboursNumNotToDie = value; }
+        }
+
+
+        public int MaxAliveNeighboursNumNotToDie
+        {
+            get { return maxAliveNeighboursNumNotToDie; }
+            set { maxAliveNeighboursNumNotToDie = value; }
+        }
+
+
+        public int AliveNeighboursNumToBeBorn
+        {
+            get { return aliveNeighboursNumToBeBorn; }
+            set { aliveNeighboursNumToBeBorn = value; OnPropertyChanged();}
+        }
 
         public bool IsHighlightingEnabled
         {
@@ -102,6 +123,9 @@ namespace GameOfLife2
             };
             prevStats = null;
             IsHighlightingEnabled = true;
+            AliveNeighboursNumToBeBorn = 3;
+            MaxAliveNeighboursNumNotToDie = 3;
+            MinAliveNeighboursNumNotToDie = 2;
         }
 
         public void SetPrevState()
@@ -200,8 +224,8 @@ namespace GameOfLife2
 
                     if ( cellState == CellStateType.Alive || cellState == CellStateType.NewBorn)
                     {
-                        if (aliveNeighboursNum > maxAliveNeighboursNumNotToDie ||
-                            aliveNeighboursNum < minAliveNeighboursNumNotToDie)
+                        if (aliveNeighboursNum > MaxAliveNeighboursNumNotToDie ||
+                            aliveNeighboursNum < MinAliveNeighboursNumNotToDie)
                         {
                             GameBoard[vert, hor].SetState(CellStateType.Dead, IsHighlightingEnabled);
                             GameStats.DeadNum++;
@@ -213,7 +237,7 @@ namespace GameOfLife2
                     }
                     else
                     {
-                        if (aliveNeighboursNum == aliveNeighboursNumToBeBorn)
+                        if (aliveNeighboursNum == AliveNeighboursNumToBeBorn)
                         {
                             GameBoard[vert, hor].SetState(CellStateType.NewBorn, IsHighlightingEnabled);
                             GameStats.BornNum++;
@@ -334,7 +358,8 @@ namespace GameOfLife2
                             continue;
                         }
 
-                        if (GameBoard[vert, hor].CellState == CellStateType.Alive)
+                        var state = GameBoard[vert, hor].CellState;
+                        if (state == CellStateType.Alive || state == CellStateType.NewBorn)
                         {
                             aliveNeighbourNum++;
                         }

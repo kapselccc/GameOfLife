@@ -101,27 +101,17 @@ namespace GameOfLife2
             Game.GameState = GameStateType.Stop;
         }
 
-        private void SetSizeButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (int.TryParse(HeightInput.Text, out int height) && int.TryParse(WidthInput.Text, out int width))
-            {
-                Game.ResizeBoard(height, width);
-                Game.InitializeBoard();
-            }
-            else
-            {
-                MessageBox.Show("Height and Width must be integer!");
-            }
-        }
 
         private void PrevButton_Click(object sender, RoutedEventArgs e)
         {
             Game.SetPrevState();
         }
 
-        private void EnableHighlightingCheckbox_Click(object sender, RoutedEventArgs e)
+
+        private void OpenSettings_Click(object sender, RoutedEventArgs e)
         {
-            Game.ChangeHighlighting();
+            SettingsWindow win = new SettingsWindow(Game);
+            win.Show();
         }
     }
 }

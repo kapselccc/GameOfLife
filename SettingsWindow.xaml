@@ -1,0 +1,83 @@
+﻿<Window x:Class="GameOfLife2.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GameOfLife2"
+        mc:Ignorable="d"
+        Title="SettingsWindow" Height="400" Width="320">
+
+    <Window.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="Width" Value="70"></Setter>
+        </Style>
+
+        <Style TargetType="StackPanel" x:Key="Line">
+            <Setter Property="Margin" Value="0,7"/>
+            <Setter Property="Orientation" Value="Horizontal"/>
+        </Style>
+        <Style  TargetType="CheckBox">
+            <Setter Property="Margin" Value="0,7"></Setter>
+        </Style>
+    </Window.Resources>
+    <StackPanel Margin="0, 10">
+
+        <StackPanel Style="{StaticResource Line}">
+            <Label  Content="Height:"/>
+            <TextBox 
+                x:Name="HeightInput"
+                Height="auto" Text="{Binding Height, Mode=OneWay}"
+                Margin="0,5"
+            />
+        </StackPanel>
+        <StackPanel Style="{StaticResource Line}">
+
+
+            <Label  Content="Width:"/>
+            <TextBox  
+                x:Name="WidthInput" 
+                Height="auto" Text="{Binding Width, Mode=OneWay}"
+                HorizontalAlignment="Stretch" 
+                Margin="0,5"
+            />
+        </StackPanel>
+        <StackPanel Style="{StaticResource Line}">
+
+
+            <Label  Content="Alive neighbours number to be born:"/>
+            <TextBox  
+                  x:Name="AliveNeighboursNumToBeBornInput" 
+                  Height="auto" Text="{Binding AliveNeighboursNumToBeBorn}"
+                  HorizontalAlignment="Stretch" 
+                 Margin="0,5"
+                  />
+        </StackPanel>
+
+        <StackPanel Style="{StaticResource Line}">
+
+            <Label  Content="Max alive neighbours num not to die:"/>
+            <TextBox  
+                x:Name="MaxAliveNeighboursNumNotToDieInput" 
+                Height="auto" Text="{Binding MaxAliveNeighboursNumNotToDie}"
+                HorizontalAlignment="Stretch" 
+                Margin="0,5"
+            />
+        </StackPanel>
+        <StackPanel  Style="{StaticResource Line}">
+
+            <Label  Content="Min alive neighbours number not to die:"/>
+            <TextBox  
+                x:Name="MinAliveNeighboursNumNotToDieInput" 
+                Height="auto" Text="{Binding MinAliveNeighboursNumNotToDie}"
+                HorizontalAlignment="Stretch" 
+                Margin="0,5"
+            />
+        </StackPanel>
+
+        <CheckBox Margin="5, 5"
+                  x:Name="HighlightingCheckbox"
+                  Content="Enable highlighting born / dead cells" VerticalAlignment="Center"
+                  IsChecked="{Binding IsHighlightingEnabled}"/>
+        <Button Content="Save" Click="SaveButton_Click"></Button>
+    </StackPanel>
+</Window>
