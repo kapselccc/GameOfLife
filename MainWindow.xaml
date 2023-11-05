@@ -9,13 +9,11 @@
         Loaded="InitGame">
     <Window.Resources>
 
-        <!--<ControlTemplate x:Key="ButtonTemplate" TargetType="Button">
-            <Grid>
-                <Button Content="{TemplateBinding Content}" Margin="0" />
-                <Border BorderBrush="Green" BorderThickness="2" ></Border>
-            </Grid>
-        </ControlTemplate>-->
-
+        <Style TargetType="Label">
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="2,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
         <Style TargetType="Button">
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
@@ -53,8 +51,8 @@
                 <MenuItem Header="Load state from file" Click="LoadFromFile_Click"/>
             </MenuItem>
         </Menu>
-        <StackPanel Orientation="Horizontal" Height="25" Margin="5" Grid.Row="1">
-            <!--<Button Template="{StaticResource ButtonTemplate}"  Content="Prev" Click="PrevButton_Click"/>-->
+        <StackPanel Orientation="Horizontal" Height="25" Margin="2" Grid.Row="1" VerticalAlignment="Center" >
+            <Button  Content="Prev" Click="PrevButton_Click"/>
             <Button Content="Next" Click="NextButton_Click"/>
             <Button Content="Start" Click="StartButton_Click"/>
             <Button Content="Stop" Click="StopButton_Click"/>
@@ -70,6 +68,7 @@
             <Label Content="Width:"/>
             <TextBox x:Name="WidthInput" Width="40" Height="auto" Text="{Binding Width, Mode=TwoWay}"/>
             <Button Content="Set size" Click="SetSizeButton_Click"/>
+            <CheckBox Content="Highlighting" VerticalAlignment="Center" IsChecked="{Binding IsHighlightingEnabled, Mode=TwoWay}" Click="EnableHighlightingCheckbox_Click"/>
         </StackPanel>
         <Grid x:Name="BoardGrid" Margin="0,5,0,5" Grid.Row="2" HorizontalAlignment="Stretch"/>
 

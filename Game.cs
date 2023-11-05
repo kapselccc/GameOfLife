@@ -33,6 +33,14 @@ namespace GameOfLife2
         private CellControl[,] gameBoard;
         private Stats gameStats;
         private Stats? prevStats;
+        private bool isHighlightingEnabled;
+
+        public bool IsHighlightingEnabled
+        {
+            get { return isHighlightingEnabled; }
+            set { isHighlightingEnabled = value; OnPropertyChanged();}
+        }
+
 
         public Stats GameStats
         {
@@ -93,6 +101,7 @@ namespace GameOfLife2
                 Generation = 0,
             };
             prevStats = null;
+            IsHighlightingEnabled = true;
         }
 
         public void SetPrevState()
@@ -107,7 +116,7 @@ namespace GameOfLife2
                 {
                     for (int j = 0; j < Width; j++)
                     {
-                        GameBoard[i, j].SetPrevAsCurrent();
+                        GameBoard[i, j].SetPrevAsCurrent(IsHighlightingEnabled);
                     }
                 }
                 UpdateCells();
@@ -186,24 +195,32 @@ namespace GameOfLife2
             {
                 for (int hor = 0; hor < Width; hor++)
                 {
-                    bool isAlive = GameBoard[vert, hor].CellState == CellStateType.Alive;
+                    var cellState = GameBoard[vert, hor].CellState;
                     int aliveNeighboursNum = GetAliveNeighboursNumber(hor, vert);
 
-                    if (isAlive)
+                    if ( cellState == CellStateType.Alive || cellState == CellStateType.NewBorn)
                     {
                         if (aliveNeighboursNum > maxAliveNeighboursNumNotToDie ||
                             aliveNeighboursNum < minAliveNeighboursNumNotToDie)
                         {
-                            GameBoard[vert, hor].SetState(CellStateType.Dead);
+                            GameBoard[vert, hor].SetState(CellStateType.Dead, IsHighlightingEnabled);
                             GameStats.DeadNum++;
+                        }
+                        else if(cellState == CellStateType.NewBorn)
+                        {
+                            GameBoard[vert, hor].SetState(CellStateType.Alive, IsHighlightingEnabled);
                         }
                     }
                     else
                     {
                         if (aliveNeighboursNum == aliveNeighboursNumToBeBorn)
                         {
-                            GameBoard[vert, hor].SetState(CellStateType.Alive);
+                            GameBoard[vert, hor].SetState(CellStateType.NewBorn, IsHighlightingEnabled);
                             GameStats.BornNum++;
+                        }
+                        else if(cellState == CellStateType.Dead)
+                        {
+                            GameBoard[vert,hor].SetState(CellStateType.Unused, IsHighlightingEnabled);
                         }
                     }
                 }
@@ -251,6 +268,9 @@ namespace GameOfLife2
                         case CellStateType.Unused:
                             s += "U";
                             break;
+                        case CellStateType.NewBorn:
+                            s += "B";
+                            break;
                     }
                 }
 
@@ -281,10 +301,16 @@ namespace GameOfLife2
                     switch (state[vert][hor])
                     {
                         case 'A':
-                            GameBoard[vert, hor].SetState(CellStateType.Alive);
+                            GameBoard[vert, hor].SetState(CellStateType.Alive, isHighlightingEnabled);
                             break;
                         case 'D':
-                            GameBoard[vert, hor].SetState(CellStateType.Dead);
+                            GameBoard[vert, hor].SetState(CellStateType.Dead, isHighlightingEnabled);
+                            break;
+                        case 'U':
+                            GameBoard[vert, hor].SetState(CellStateType.Unused, isHighlightingEnabled);
+                            break;
+                        case 'B':
+                            GameBoard[vert, hor].SetState(CellStateType.NewBorn, isHighlightingEnabled);
                             break;
                         default:
                             break;
@@ -317,6 +343,19 @@ namespace GameOfLife2
             }
 
             return aliveNeighbourNum;
+        }
+
+        public void ChangeHighlighting()
+        {
+            for (int i = 0; i < Height; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    var cellState = GameBoard[i, j].CellState;
+                    GameBoard[i, j].SetState(cellState,IsHighlightingEnabled);
+                }
+            }
+            UpdateCells();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

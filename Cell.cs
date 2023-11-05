@@ -11,6 +11,7 @@ namespace GameOfLife2
 {
     public enum CellStateType
     {
+        NewBorn,
         Alive,
         Unused,
         Dead
@@ -21,6 +22,7 @@ namespace GameOfLife2
         public static readonly Brush AliveButtonFill = Brushes.Black;
         public static readonly Brush UnusedButtonFill = Brushes.Transparent;
         public static readonly Brush DeadButtonFill = Brushes.Gray;
+        public static readonly Brush NewbornButtonFill = Brushes.Navy;
     }
     public class Cell : INotifyPropertyChanged
     {
@@ -70,10 +72,10 @@ namespace GameOfLife2
             nextCell.ButtonFill = CellConstants.AliveButtonFill;
         }
 
-        private void SetDead()
+        private void SetDead(bool isHighlightingOn)
         {
             nextCell.CellState = CellStateType.Dead;
-            nextCell.ButtonFill = CellConstants.DeadButtonFill;
+            nextCell.ButtonFill = isHighlightingOn ? CellConstants.DeadButtonFill : CellConstants.UnusedButtonFill;
         }
 
         private void SetUnused()
@@ -82,13 +84,21 @@ namespace GameOfLife2
             nextCell.ButtonFill = CellConstants.UnusedButtonFill;
         }
 
+        private void SetNewBorn(bool isHighlightingOn)
+        {
+            nextCell.CellState = CellStateType.NewBorn;
+
+            nextCell.ButtonFill = isHighlightingOn ? CellConstants.NewbornButtonFill : CellConstants.AliveButtonFill;
+
+        }
+
         public void UpdateCell()
         {
             prevCellState = CellState;
             ButtonFill = nextCell.ButtonFill;
             CellState = nextCell.CellState;
         }
-        public void SetState(CellStateType state)
+        public void SetState(CellStateType state, bool isHighlightingOn)
         {
             switch (state)
             {
@@ -99,7 +109,10 @@ namespace GameOfLife2
                     SetAlive();
                     break;
                 case CellStateType.Dead:
-                    SetDead();
+                    SetDead(isHighlightingOn);
+                    break;
+                case CellStateType.NewBorn:
+                    SetNewBorn(isHighlightingOn);
                     break;
             }
         }
@@ -115,11 +128,11 @@ namespace GameOfLife2
 
         }
 
-        public void SetPrevAsCurrent()
+        public void SetPrevAsCurrent(bool isHighlightingOn)
         {
-            if(prevCellState != null)
+            if (prevCellState != null)
             {
-                SetState(prevCellState ?? default(CellStateType));
+                SetState(prevCellState ?? default(CellStateType), isHighlightingOn);
                 prevCellState = null;
             }
         }

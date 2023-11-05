@@ -118,5 +118,10 @@ namespace GameOfLife2
         {
             Game.SetPrevState();
         }
+
+        private void EnableHighlightingCheckbox_Click(object sender, RoutedEventArgs e)
+        {
+            Game.ChangeHighlighting();
+        }
     }
 }

@@ -43,9 +43,9 @@ namespace GameOfLife2
             set { CellModel.CellState = value; }
         }
 
-        public void SetState(CellStateType state)
+        public void SetState(CellStateType state, bool isHighlightingOn)
         {
-            CellModel.SetState((state));
+            CellModel.SetState(state, isHighlightingOn);
         }
 
         public void UpdateCell()
@@ -53,9 +53,9 @@ namespace GameOfLife2
             CellModel.UpdateCell();
         }
 
-        public void SetPrevAsCurrent()
+        public void SetPrevAsCurrent(bool isHighlightingOn)
         {
-            cellModel.SetPrevAsCurrent();
+            cellModel.SetPrevAsCurrent(isHighlightingOn);
         }
         private void ControlButton_OnClick(object sender, RoutedEventArgs e)
         {
